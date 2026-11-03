@@ -1,3 +1,24 @@
-# ASTRA Telegram Trade Copier
+# ASTRA Telegram Copier
 
-Android application for receiving and parsing Telegram trading signals.
+تطبيق Android أولي لالتقاط إشارات التداول من إشعارات Telegram وتحليلها وعرضها.
+
+## ما يعمل في هذا الإصدار
+- التقاط إشعارات Telegram التي يعرضها Android بعد منح صلاحية Notification Access.
+- تحليل إشارات مثل USDCHF / M1 / PUT أو CALL.
+- إدخال إشارة يدويًا لاختبار المحلل.
+- بناء APK تلقائيًا عند كل تحديث على main ونشره في GitHub Releases.
+
+## حدود مهمة
+- يعتمد هذا الإصدار على إشعارات Android؛ لا يستطيع قراءة الرسائل التي لا تظهر في الإشعارات أو القنوات المكتومة.
+- لا يستخدم Telegram Bot API ولا يطلب Session String أو رمز تسجيل دخول.
+- لا يتصل بـ Pocket Option ولا ينفذ صفقات حقيقية. لا توجد واجهة تداول رسمية مدمجة.
+- لا تضع بيانات دخول Telegram أو Session ID في Issues أو ملفات المستودع.
+
+## التثبيت
+1. نزّل APK من قسم Releases.
+2. ثبّت التطبيق على Android 8 أو أحدث.
+3. افتح التطبيق واضغط «تفعيل الوصول لإشعارات تيليجرام».
+4. فعّل ASTRA في إعدادات Notification Access.
+5. فعّل معاينة إشعارات Telegram للقناة المطلوبة.
+
+هذا الإصدار للمراقبة والتحليل والاختبار فقط، وليس توصية استثمارية.
