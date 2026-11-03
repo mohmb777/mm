@@ -49,11 +49,7 @@ class MainActivity : Activity() {
             startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
         }
         heading("اختبار / إدخال إشارة يدويًا")
-        signalInput = EditText(this).apply {
-            hint = "USDCHF\nM1\nPUT"
-            minLines = 3
-            gravity = Gravity.TOP
-        }
+        signalInput = EditText(this).apply { hint = "USDCHF\nM1\nPUT"; minLines = 3; gravity = Gravity.TOP }
         content.addView(signalInput, LinearLayout.LayoutParams(-1, ViewGroup.LayoutParams.WRAP_CONTENT))
         button("تحليل الإشارة") { parseManual() }
         heading("آخر إشارة تم التقاطها")
@@ -69,25 +65,21 @@ class MainActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        registerReceiver(receiver, IntentFilter(ACTION_SIGNAL_RECEIVED))
+        registerReceiver(receiver, IntentFilter(ACTION_SIGNAL_RECEIVED), Context.RECEIVER_NOT_EXPORTED)
         refreshLatest()
     }
     override fun onPause() {
         try { unregisterReceiver(receiver) } catch (_: Exception) {}
         super.onPause()
     }
-
     private fun parseManual() {
         val signal = SignalParser.parse(signalInput.text.toString())
         status.text = if (signal == null) "لم أتعرف على الإشارة. مثال: USDCHF / M1 / PUT"
         else "تم تحليل إشارة تجريبية:\nالزوج: ${signal.pair}\nالفريم: ${signal.timeframe}\nالاتجاه: ${signal.direction}\nالانتهاء: ${signal.expiry ?: "غير محدد"}\n\nلم يتم تنفيذ أي صفقة."
     }
-
     private fun refreshLatest() {
-        val prefs = getSharedPreferences("astra_signals", MODE_PRIVATE)
-        val raw = prefs.getString("latest", null)
-        val enabled = android.service.notification.NotificationListenerService::class.java != null &&
-            android.provider.Settings.Secure.getString(contentResolver, "enabled_notification_listeners")?.contains(packageName) == true
+        val raw = getSharedPreferences("astra_signals", MODE_PRIVATE).getString("latest", null)
+        val enabled = Settings.Secure.getString(contentResolver, "enabled_notification_listeners")?.contains(packageName) == true
         status.text = buildString {
             append(if (enabled) "حالة قارئ الإشعارات: مفعّل" else "حالة قارئ الإشعارات: غير مفعّل")
             append("\n")
